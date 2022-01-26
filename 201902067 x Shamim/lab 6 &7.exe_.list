@@ -1,0 +1,260 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+lab 6 &7.exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 12/8/2021  --  4:41:55 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       MDSPLY_STRING MACRO STRING
+[   2]        :                                       
+[   3]        :                                       MOV DX, OFFSET STRING
+[   4]        :                                       
+[   5]        :                                       MOV AH, 09H
+[   6]        :                                       INT 21H
+[   7]        :                                       
+[   8]        :                                       ENDM
+[   9]        :                                       
+[  10]        :                                       .MODEL SMALL
+[  11]        :                                       .STACK 100H
+[  12]        :                                       .DATA
+[  13]        :                                       
+[  14]    0100: 00                                    n db ?
+[  15]    0101: 00                                    odd db ?
+[  16]    0102: 00                                    even db ?
+[  17]        :                                       
+[  18]    0103: 00                                    R db ?
+[  19]    0104: 00                                    z db ?
+[  20]        :                                       
+[  21]    0105:                                       A db n dup (?)
+[  22]        :                                       
+[  23]        :                                       
+[  24]        :                                       
+[  25]        :                                       
+[  26]    0105: 45 6E 74 65 72 20 74 68 65 20 6E 75   msg1 DB "Enter the number of input: $"
+                6D 62 65 72 20 6F 66 20 69 6E 70 75 
+                74 3A 20 24                         
+[  27]    0121: 0A 0D 45 6E 74 65 72 20 74 68 65 20   msg2 DB 0AH,0DH,"Enter the all element : $"
+                61 6C 6C 20 65 6C 65 6D 65 6E 74 3A 
+                20 24                               
+[  28]        :                                       
+[  29]    013B: 20 20 24                              msg3 DB "  $"
+[  30]        :                                       
+[  31]    013E: 0A 0D 54 68 65 20 73 75 6D 6D 61 74   msg5 DB 0AH,0DH,"The summation of odd: $"
+                69 6F 6E 20 6F 66 20 6F 64 64 3A 20 
+                24                                  
+[  32]    0157: 0A 0D 54 68 65 20 73 75 6D 6D 61 74   msg6 DB 0AH,0DH,"The summation of even: $"
+                69 6F 6E 20 6F 66 20 65 76 65 6E 3A 
+                20 24                               
+[  33]        :                                       
+[  34]        :                                       .CODE
+[  35]    0180:                                       MAIN PROC
+[  36]        :                                       
+[  37]        :                                       
+[  38]        :                                       
+[  39]    0180: B8 10 00                              mov ax, @DATA
+[  40]    0183: 8E D8                                 mov ds, ax
+[  41]        :                                       
+[  42]    0185: C6 06 01 00 00                        mov odd,0
+[  43]    018A: C6 06 02 00 00                        mov even, 0
+[  44]    018F: BB 00 00                              mov bx,0
+[  45]        :                                       
+[  46]    0192: BA 05 00 B4 09 CD 21                  MDSPLY_STRING  msg1
+[  47]        :                                       
+[  48]    0199: B4 01                                 mov ah,1
+[  49]    019B: CD 21                                 int 21H
+[  50]    019D: 2C 30                                 sub al,30H
+[  51]    019F: A2 00 00                              mov n,al
+[  52]        :                                       
+[  53]    01A2: BA 21 00 B4 09 CD 21                  MDSPLY_STRING msg2
+[  54]        :                                       
+[  55]        :                                       
+[  56]    01A9: 33 C9                                 xor cx,cx
+[  57]    01AB: 8A 0E 00 00                           mov cl,n
+[  58]    01AF: BE 00 00                              mov si,0
+[  59]        :                                       
+[  60]        :                                       
+[  61]    01B2:                                       Loop_1:
+[  62]        :                                       
+[  63]    01B2: B4 01                                 mov ah,1
+[  64]    01B4: CD 21                                 int 21H
+[  65]    01B6: 2C 30                                 sub al,30H
+[  66]        :                                       
+[  67]    01B8: 88 44 05                              mov A[si],al
+[  68]        :                                       
+[  69]        :                                       
+[  70]    01BB: 46                                    inc si
+[  71]        :                                       
+[  72]    01BC: BA 3B 00 B4 09 CD 21                  MDSPLY_STRING  msg3
+[  73]        :                                       
+[  74]        :                                       
+[  75]    01C3: E2 ED                                 loop Loop_1
+[  76]        :                                       
+[  77]        :                                       
+[  78]    01C5: 33 C9                                 xor cx,cx
+[  79]    01C7: 8A 0E 00 00                           mov cl,n
+[  80]    01CB: C6 06 04 00 02                        mov z,2
+[  81]    01D0: BE 00 00                              mov si,0
+[  82]        :                                       
+[  83]    01D3:                                       Loop_2:
+[  84]        :                                       
+[  85]        :                                       
+[  86]    01D3: B8 00 00                              MOV AX,00
+[  87]    01D6: 8A 44 05                              MOV AL,A[si]
+[  88]    01D9: F6 36 04 00                           DIV z
+[  89]    01DD: 8B FE                                 mov di,si
+[  90]    01DF: 46                                    inc si
+[  91]        :                                       
+[  92]    01E0: 80 FC 00                              CMP AH,00
+[  93]        :                                       
+[  94]    01E3: 74 02                                 JZ RESULT_1
+[  95]        :                                       
+[  96]    01E5: 75 0B                                 JNZ RESULT_2
+[  97]        :                                       
+[  98]        :                                       
+[  99]        :                                       
+[ 100]    01E7:                                       RESULT_1:
+[ 101]    01E7: 8A 1E 02 00                           mov bl,even
+[ 102]        :                                       
+[ 103]    01EB: 02 5D 05                              add bl,A[di]
+[ 104]        :                                       
+[ 105]    01EE: 88 1E 02 00                           mov even,bl
+[ 106]        :                                       
+[ 107]    01F2:                                       RESULT_2:
+[ 108]        :                                       
+[ 109]        :                                       
+[ 110]    01F2: E2 DF                                 loop Loop_2
+[ 111]        :                                       
+[ 112]    01F4: 33 C9                                 xor cx,cx
+[ 113]    01F6: 8A 0E 00 00                           mov cl,n
+[ 114]    01FA: BE 00 00                              mov si,0
+[ 115]        :                                       
+[ 116]    01FD:                                       Loop_3:
+[ 117]        :                                       
+[ 118]        :                                       
+[ 119]    01FD: B8 00 00                              MOV AX,00
+[ 120]    0200: 8A 44 05                              MOV AL,A[si]
+[ 121]    0203: F6 36 04 00                           DIV z
+[ 122]    0207: 8B FE                                 mov di,si
+[ 123]    0209: 46                                    inc si
+[ 124]        :                                       
+[ 125]    020A: 80 FC 00                              CMP AH,00
+[ 126]        :                                       
+[ 127]    020D: 75 02                                 JNZ RESULT_3
+[ 128]        :                                       
+[ 129]    020F: 74 0B                                 JZ RESULT_4
+[ 130]        :                                       
+[ 131]        :                                       
+[ 132]        :                                       
+[ 133]    0211:                                       RESULT_3:
+[ 134]        :                                       
+[ 135]    0211: 8A 1E 01 00                           mov bl,odd
+[ 136]    0215: 02 5D 05                              add bl,A[di]
+[ 137]    0218: 88 1E 01 00                           mov odd,bl
+[ 138]        :                                       
+[ 139]    021C:                                       RESULT_4:
+[ 140]        :                                       
+[ 141]    021C: E2 DF                                 loop Loop_3
+[ 142]        :                                       
+[ 143]    021E: BA 3E 00 B4 09 CD 21                  MDSPLY_STRING  msg5
+[ 144]        :                                       
+[ 145]    0225: C6 06 03 00 0A                        mov R,10
+[ 146]        :                                       
+[ 147]    022A: 33 C0                                 xor ax,ax
+[ 148]        :                                       
+[ 149]    022C: A0 01 00                              mov al,odd
+[ 150]        :                                       
+[ 151]    022F: F6 36 03 00                           div R
+[ 152]    0233: 8A FC                                 mov bh,ah
+[ 153]        :                                       
+[ 154]    0235: B4 02                                 mov ah,2
+[ 155]    0237: 8A D0                                 mov dl,al
+[ 156]    0239: 80 C2 30                              add dl,30H
+[ 157]    023C: CD 21                                 int 21H
+[ 158]        :                                       
+[ 159]    023E: B4 02                                 mov ah,2
+[ 160]    0240: 8A D7                                 mov dl,bh
+[ 161]    0242: 80 C2 30                              add dl,30H
+[ 162]    0245: CD 21                                 int 21H
+[ 163]        :                                       
+[ 164]    0247: BA 57 00 B4 09 CD 21                  MDSPLY_STRING  msg6
+[ 165]        :                                       
+[ 166]        :                                       
+[ 167]        :                                       
+[ 168]    024E: 33 C0                                 xor ax,ax
+[ 169]        :                                       
+[ 170]    0250: A0 02 00                              mov al,even
+[ 171]        :                                       
+[ 172]    0253: F6 36 03 00                           div R
+[ 173]    0257: 8A FC                                 mov bh,ah
+[ 174]        :                                       
+[ 175]    0259: B4 02                                 mov ah,2
+[ 176]    025B: 8A D0                                 mov dl,al
+[ 177]    025D: 80 C2 30                              add dl,30H
+[ 178]    0260: CD 21                                 int 21H
+[ 179]        :                                       
+[ 180]    0262: B4 02                                 mov ah,2
+[ 181]    0264: 8A D7                                 mov dl,bh
+[ 182]    0266: 80 C2 30                              add dl,30H
+[ 183]    0269: CD 21                                 int 21H
+[ 184]        :                                       
+[ 185]        :                                       
+[ 186]        :                                       
+[ 187]        :                                       
+[ 188]        :                                       
+[ 189]        :                                       
+[ 190]        :                                       
+[ 191]        :                                       
+[ 192]    026B: B4 4C                                 mov ah, 4ch
+[ 193]    026D: CD 21                                 int 21h
+[ 194]        :                                       
+[ 195]        :                                       MAIN ENDP
+[ 196]        :                                       END MAIN
+[ 197]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 6F      -   bytes on last page (l.byte)
+0003: 00      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 39      -   check sum (l.byte)
+0013: 13      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 18      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 18      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

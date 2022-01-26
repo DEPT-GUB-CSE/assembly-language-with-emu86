@@ -1,0 +1,147 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+im1 DB "Enter your first two digit number  $"
+im2 DB 0AH,0DH,"Enter your second two digit number $"
+
+num1 DW ?
+num2 DW ?
+addition DW ?
+
+subtraction DW ?
+msg1 DB 0AH,0DH,"Gater number is $"
+msg2 DB 0AH,0DH,"Lesser number is $"
+
+
+.CODE
+MAIN PROC
+MOV AX,@DATA
+MOV DS,AX
+
+LEA DX,im1
+MOV AH,09
+INT 21H
+
+MOV AH,1
+INT 21H
+SUB AL,30H
+MOV BH,AL
+
+MOV AH,1
+INT 21H
+SUB AL,30H
+MOV BL,AL
+
+XOR AX,AX
+MOV AL,BH
+MOV CL,10
+MUL CL
+ADD AL,BL
+MOV num1,AX
+
+LEA DX,im2
+MOV AH,09
+INT 21H
+
+MOV AH,1
+INT 21H
+SUB AL,30H
+MOV BH,AL
+
+MOV AH,1
+INT 21H
+SUB AL,30H
+MOV BL,AL
+
+XOR AX,AX
+MOV AL,BH
+MOV CL,10
+MUL CL
+ADD AL,BL
+MOV num2,AX
+
+
+MOV AX,num1
+MOV BX,num2
+ADD AX,BX
+MOV addition,AX
+
+XOR AX,AX
+MOV AX,num1
+MOV BX,num2
+
+SUB AX,BX
+MOV subtraction,AX
+MOV AX,num1
+MOV BX,num2
+
+CMP AX,BX
+
+JG GRATER
+JL LESS
+
+
+GRATER:
+
+LEA DX,msg1
+MOV AH,09
+INT 21H
+
+XOR AX,AX
+XOR BX,BX
+XOR DX,DX
+XOR CX,CX
+
+MOV AX,num1
+MOV BX,10
+DIV BX
+MOV BH,AL
+MOV BL,DL
+ADD BH,30H
+ADD BL,30H
+MOV AH,2
+MOV DL,BH
+INT 21H
+MOV DL,BL
+INT 21H
+
+
+MOV AH,4CH
+INT 21H
+
+LESS:
+
+LEA DX,msg1
+MOV AH,09
+INT 21H
+
+XOR AX,AX
+XOR BX,BX
+XOR DX,DX
+XOR CX,CX
+
+MOV AX,num2
+MOV BX,10
+DIV BX
+MOV BH,AL
+MOV BL,DL
+ADD BH,30H
+ADD BL,30H
+MOV AH,2
+MOV DL,BH
+INT 21H
+MOV DL,BL
+INT 21H
+
+
+MOV AH,4CH
+INT 21H
+
+
+MAIN ENDP
+END MAIN
+
+
+
+
+; [SOURCE]: C:\emu8086\MySource\2 digit.asm

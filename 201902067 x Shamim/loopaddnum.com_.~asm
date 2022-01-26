@@ -1,0 +1,62 @@
+org 100h
+
+.DATA
+A db 3, 1, 2, 2, 1
+sum db ?
+message db 'Enter the value of N:$'
+B db 'The sum is: $'
+
+.CODE
+MAIN PROC
+mov ax, @DATA
+mov ds, ax
+
+xor ax,ax
+mov si, OFFSET A
+mov di, OFFSET B
+
+mov dx, OFFSET message
+mov ah, 09h
+int 21h
+
+mov ah, 01h
+int 21h
+mov cl, al
+sub cl, 48
+
+
+xor al, al
+
+Loop_1:
+add al, [Si]
+inc Si
+loop Loop_1
+
+
+mov bl, al
+add bl, 48
+
+mov ah, 02h
+mov dl, 0Dh
+int 21h
+mov dl, 0Ah
+int 21h
+
+mov ah, 09h
+mov dx, OFFSET B
+int 21h
+
+mov ah,02h
+mov dl, bl
+int 21h
+
+mov ah, 4ch
+int 21h
+
+MAIN ENDP
+END MAIN
+RET
+
+
+
+; [SOURCE]: C:\emu8086\MySource\loopaddnum.asm

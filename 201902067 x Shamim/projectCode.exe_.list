@@ -1,0 +1,513 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+projectCode.exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 12/27/2021  --  4:42:59 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       MAC_PRINT MACRO X
+[   2]        :                                       MOV AX,X
+[   3]        :                                       ADD AMOUNT,AX
+[   4]        :                                       MOV DX,0 ;REMINDER IS 0
+[   5]        :                                       MOV BX,10
+[   6]        :                                       MOV CX,0
+[   7]        :                                       L:
+[   8]        :                                       DIV BX
+[   9]        :                                       PUSH DX
+[  10]        :                                       MOV DX,0
+[  11]        :                                       MOV AH,0
+[  12]        :                                       INC CX
+[  13]        :                                       CMP AX,0
+[  14]        :                                       JNE L
+[  15]        :                                       ; PRINT "GIVEN AMOUNT = "
+[  16]        :                                       PRINTN
+[  17]        :                                       
+[  18]        :                                       L2:
+[  19]        :                                       POP DX
+[  20]        :                                       ADD DX,48
+[  21]        :                                       MOV AH,2
+[  22]        :                                       INT 21H
+[  23]        :                                       LOOP L2
+[  24]        :                                       
+[  25]        :                                       ENDM
+[  26]        :                                       
+[  27]        :                                       MAC_PRINT2 MACRO Y
+[  28]        :                                       MOV AX,Y
+[  29]        :                                       ADD AMOUNT,AX
+[  30]        :                                       MOV DX,0 ;REMINDER IS 0
+[  31]        :                                       MOV BX,10
+[  32]        :                                       MOV CX,0
+[  33]        :                                       L_2:
+[  34]        :                                       DIV BX
+[  35]        :                                       PUSH DX
+[  36]        :                                       MOV DX,0
+[  37]        :                                       MOV AH,0
+[  38]        :                                       INC CX
+[  39]        :                                       CMP AX,0
+[  40]        :                                       JNE L_2
+[  41]        :                                       ;  PRINT "GIVEN AMOUNT = "
+[  42]        :                                       PRINTN
+[  43]        :                                       
+[  44]        :                                       L2_1:
+[  45]        :                                       POP DX
+[  46]        :                                       ADD DX,48
+[  47]        :                                       MOV AH,2
+[  48]        :                                       INT 21H
+[  49]        :                                       LOOP L2_1
+[  50]        :                                       
+[  51]        :                                       ENDM
+[  52]        :                                       
+[  53]        :                                       MAC_PRINT3 MACRO Z
+[  54]        :                                       MOV AX,Z
+[  55]        :                                       ADD AMOUNT,AX
+[  56]        :                                       MOV DX,0 ;REMINDER IS 0
+[  57]        :                                       MOV BX,10
+[  58]        :                                       MOV CX,0
+[  59]        :                                       L_3:
+[  60]        :                                       DIV BX
+[  61]        :                                       PUSH DX
+[  62]        :                                       MOV DX,0
+[  63]        :                                       MOV AH,0
+[  64]        :                                       INC CX
+[  65]        :                                       CMP AX,0
+[  66]        :                                       JNE L_3
+[  67]        :                                       ;  PRINT "GIVEN AMOUNT = "
+[  68]        :                                       PRINTN
+[  69]        :                                       
+[  70]        :                                       L3_1:
+[  71]        :                                       POP DX
+[  72]        :                                       ADD DX,48
+[  73]        :                                       MOV AH,2
+[  74]        :                                       INT 21H
+[  75]        :                                       LOOP L3_1
+[  76]        :                                       
+[  77]        :                                       ENDM
+[  78]        :                                       
+[  79]        :                                       MAC_TOTAL MACRO AM
+[  80]        :                                       MOV AX,AM
+[  81]        :                                       MOV DX,0 ;REMINDER IS 0
+[  82]        :                                       MOV BX,10
+[  83]        :                                       MOV CX,0
+[  84]        :                                       AM1:
+[  85]        :                                       DIV BX
+[  86]        :                                       PUSH DX
+[  87]        :                                       MOV DX,0
+[  88]        :                                       ; MOV AH,0
+[  89]        :                                       INC CX
+[  90]        :                                       CMP AX,0
+[  91]        :                                       JNE AM1
+[  92]        :                                       ;  PRINT "GIVEN AMOUNT = "
+[  93]        :                                       ;PRINTN
+[  94]        :                                       
+[  95]        :                                       AH2:
+[  96]        :                                       POP DX
+[  97]        :                                       ADD DX,48
+[  98]        :                                       MOV AH,2
+[  99]        :                                       INT 21H
+[ 100]        :                                       LOOP AH2
+[ 101]        :                                       
+[ 102]        :                                       ENDM
+[ 103]        :                                       
+[ 104]        :                                       
+[ 105]        :                                       ;-------------------------------------------------------------------
+[ 106]        :                                       INCLUDE "EMU8086.INC"
+[ 107]        :                                       .MODEL SMALL
+[ 108]        :                                       .STACK 100H
+[ 109]        :                                       .DATA
+[ 110]    0100: C8 00                                 A DW 200
+[ 111]    0102: 2C 01                                 B DW 300
+[ 112]    0104: 90 01                                 C DW 400
+[ 113]        :                                       
+[ 114]    0106: 00 00                                 AMOUNT DW 0
+[ 115]    0108: 30 00                                 COUNT DW '0'
+[ 116]        :                                       
+[ 117]    010A: 30 00                                 S_MOT DW '0'
+[ 118]    010C: 30 00                                 S_CAR DW '0'
+[ 119]    010E: 30 00                                 S_BUS DW '0'
+[ 120]        :                                       
+[ 121]        :                                       
+[ 122]    0110: 54 6F 74 61 6C 20 61 6D 6F 75 6E 74   M1 DB "Total amount is : $"
+                20 69 73 3A 20 24                   
+[ 123]    0122: 54 6F 74 61 6C 20 6E 75 6D 62 65 72   M2 DB "Total number of vahical : $"
+                20 6F 66 20 76 61 68 69 63 61 6C 3A 
+                20 24                               
+[ 124]    013C: 54 6F 74 61 6C 20 6E 75 6D 62 65 72   M3 DB "Total number of motor cycle : $"
+                20 6F 66 20 6D 6F 74 6F 72 20 63 79 
+                63 6C 65 3A 20 24                   
+[ 125]    015A: 54 6F 74 61 6C 20 6E 75 6D 62 65 72   M4 DB "Total number of car : $"
+                20 6F 66 20 63 61 72 3A 20 24       
+[ 126]    0170: 54 6F 74 61 6C 20 6E 75 6D 62 65 72   M5 DB "Total number of bus : $"
+                20 6F 66 20 62 75 73 3A 20 24       
+[ 127]        :                                       
+[ 128]    0186: 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D   MA0 DB "---------------MENU--------------$"
+                2D 2D 2D 4D 45 4E 55 2D 2D 2D 2D 2D 
+                2D 2D 2D 2D 2D 2D 2D 2D 2D 24       
+[ 129]    01A8: 20 20 20 31 20 2D 3E 20 4D 6F 74 6F   MA1 DB "   1 -> Motor cycle   -   200tk$"
+                72 20 63 79 63 6C 65 20 20 20 2D 20 
+                20 20 32 30 30 74 6B 24             
+[ 130]    01C8: 20 20 20 32 20 2D 3E 20 43 61 72 20   MA2 DB "   2 -> Car   -   300tk$"
+                20 20 2D 20 20 20 33 30 30 74 6B 24 
+                                                    
+[ 131]    01E0: 20 20 20 33 20 2D 3E 20 42 75 73 20   MA3 DB "   3 -> Bus   -   400tk$"
+                20 20 2D 20 20 20 34 30 30 74 6B 24 
+                                                    
+[ 132]    01F8: 20 20 20 34 20 2D 3E 20 54 6F 20 73   MA4 DB "   4 -> To show the record$"
+                68 6F 77 20 74 68 65 20 72 65 63 6F 
+                72 64 24                            
+[ 133]    0213: 20 20 20 35 20 2D 3E 20 54 6F 20 64   MA5 DB "   5 -> To delete the record$"
+                65 6C 65 74 65 20 74 68 65 20 72 65 
+                63 6F 72 64 24                      
+[ 134]    0230: 20 20 20 36 20 2D 3E 20 45 78 69 74   MA6 DB "   6 -> Exit$"
+                24                                  
+[ 135]        :                                       
+[ 136]    023D: 20 4D 61 78 69 6D 75 6D 20 70 61 72   MMN DB " Maximum parking size 9 $"
+                6B 69 6E 67 20 73 69 7A 65 20 39 20 
+                24                                  
+[ 137]    0256: 20 50 6C 65 61 73 65 20 65 6E 74 65   MMN2 DB " Please enter a input (1 - 6) : $"
+                72 20 61 20 69 6E 70 75 74 20 28 31 
+                20 2D 20 36 29 3A 20 24             
+[ 138]        :                                       
+[ 139]        :                                       .CODE
+[ 140]    0280:                                       MAIN PROC
+[ 141]    0280: B8 10 00                              MOV AX,@DATA
+[ 142]    0283: 8E D8                                 MOV DS,AX
+[ 143]        :                                       
+[ 144]    0285: B4 09                                 MOV AH,09H
+[ 145]    0287: BA 3D 01                              LEA DX,MMN
+[ 146]    028A: CD 21                                 INT 21H
+[ 147]        :                                       
+[ 148]    028C:                                       WHILE_:
+[ 149]        :                                       
+[ 150]    028C: 50 56 EB 03 0D 0A 00 BE 10 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 151]    02A6: 50 56 EB 03 0D 0A 00 BE 2A 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 152]        :                                       
+[ 153]    02C0: B4 09                                 MOV AH,09H
+[ 154]    02C2: BA 86 00                              LEA DX,MA0
+[ 155]    02C5: CD 21                                 INT 21H
+[ 156]    02C7: 50 56 EB 03 0D 0A 00 BE 4B 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 157]        :                                       
+[ 158]    02E1: B4 09                                 MOV AH,09H
+[ 159]    02E3: BA A8 00                              LEA DX,MA1
+[ 160]    02E6: CD 21                                 INT 21H
+[ 161]    02E8: 50 56 EB 03 0D 0A 00 BE 6C 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 162]        :                                       
+[ 163]    0302: B4 09                                 MOV AH,09H
+[ 164]    0304: BA C8 00                              LEA DX,MA2
+[ 165]    0307: CD 21                                 INT 21H
+[ 166]    0309: 50 56 EB 03 0D 0A 00 BE 8D 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 167]        :                                       
+[ 168]    0323: B4 09                                 MOV AH,09H
+[ 169]    0325: BA E0 00                              LEA DX,MA3
+[ 170]    0328: CD 21                                 INT 21H
+[ 171]    032A: 50 56 EB 03 0D 0A 00 BE AE 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 172]        :                                       
+[ 173]    0344: B4 09                                 MOV AH,09H
+[ 174]    0346: BA F8 00                              LEA DX,MA4
+[ 175]    0349: CD 21                                 INT 21H
+[ 176]    034B: 50 56 EB 03 0D 0A 00 BE CF 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 177]        :                                       
+[ 178]    0365: B4 09                                 MOV AH,09H
+[ 179]    0367: BA 13 01                              LEA DX,MA5
+[ 180]    036A: CD 21                                 INT 21H
+[ 181]    036C: 50 56 EB 03 0D 0A 00 BE F0 00 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 182]        :                                       
+[ 183]    0386: B4 09                                 MOV AH,09H
+[ 184]    0388: BA 30 01                              LEA DX,MA6
+[ 185]    038B: CD 21                                 INT 21H
+[ 186]        :                                       
+[ 187]    038D: 50 56 EB 03 0D 0A 00 BE 11 01 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 188]    03A7: B4 09                                 MOV AH,09H
+[ 189]    03A9: BA 56 01                              LEA DX,MMN2
+[ 190]    03AC: CD 21                                 INT 21H
+[ 191]        :                                       
+[ 192]    03AE: B4 01                                 MOV AH,1   ; USER INPUT
+[ 193]    03B0: CD 21                                 INT 21H
+[ 194]        :                                       
+[ 195]        :                                       ; COMPARE
+[ 196]    03B2: 3C 31                                 CMP AL,'1'  ; '1' OR 31H
+[ 197]    03B4: 74 7C                                 JE P_MOTOR
+[ 198]        :                                       
+[ 199]    03B6: 3C 32                                 CMP AL,'2'
+[ 200]    03B8: 74 7B                                 JE P_CAR
+[ 201]        :                                       
+[ 202]    03BA: 3C 33                                 CMP AL,'3'
+[ 203]    03BC: 74 7A                                 JE P_BUS
+[ 204]        :                                       
+[ 205]    03BE: 3C 34                                 CMP AL,'4'
+[ 206]    03C0: 74 79                                 JE P_REC
+[ 207]        :                                       
+[ 208]    03C2: 3C 35                                 CMP AL,'5'
+[ 209]    03C4: 74 78                                 JE P_DELET
+[ 210]        :                                       
+[ 211]    03C6: 3C 36                                 CMP AL,'6'
+[ 212]    03C8: 74 77                                 JE P_EXIT
+[ 213]        :                                       
+[ 214]    03CA: 50 56 EB 03 0D 0A 00 BE 4E 01 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 215]    03E4: 50 56 EB 1A 2D 2D 2D 20 21 21 20 57   PRINT "--- !! WRONG INPUT !! ---"
+                52 4F 4E 47 20 49 4E 50 55 54 20 21 
+                21 20 2D 2D 2D 00 BE 68 01 2E 8A 04 
+                3C 00 74 07 46 B4 0E CD 10 EB F2 5E 
+                58                                  
+[ 216]    0415: 50 56 EB 03 0D 0A 00 BE 99 01 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 217]        :                                       
+[ 218]        :                                       
+[ 219]    042F: E9 5A FE                              JMP WHILE_
+[ 220]        :                                       
+[ 221]        :                                       
+[ 222]    0432:                                       P_MOTOR:
+[ 223]    0432: E8 10 00                              CALL PROC_MOTOR
+[ 224]        :                                       
+[ 225]    0435:                                       P_CAR:
+[ 226]    0435: E8 9E 00                              CALL PROC_CAR
+[ 227]        :                                       
+[ 228]    0438:                                       P_BUS:
+[ 229]    0438: E8 2D 01                              CALL PROC_BUS
+[ 230]        :                                       
+[ 231]    043B:                                       P_REC:
+[ 232]    043B: E8 BF 01                              CALL PROC_RECORD
+[ 233]        :                                       
+[ 234]    043E:                                       P_DELET:
+[ 235]    043E: E8 AB 02                              CALL PROC_DELET
+[ 236]        :                                       
+[ 237]    0441:                                       P_EXIT:
+[ 238]    0441: B4 4C                                 MOV AH,4CH
+[ 239]    0443: CD 21                                 INT 21H
+[ 240]        :                                       
+[ 241]        :                                       
+[ 242]        :                                       MAIN ENDP
+[ 243]        :                                       
+[ 244]        :                                       ;--------------------------------------------------------
+[ 245]        :                                       
+[ 246]    0445:                                       PROC_MOTOR PROC
+[ 247]    0445: 83 3E 08 00 39                        CMP COUNT,'9'
+[ 248]    044A: 7E 3A                                 JLE J_MOT
+[ 249]    044C: 50 56 EB 1E 2D 2D 2D 20 21 21 20 50   PRINT "--- !! Parking Is Full !! ---"
+                61 72 6B 69 6E 67 20 49 73 20 46 75 
+                6C 6C 20 21 21 20 2D 2D 2D 00 BE D0 
+                01 2E 8A 04 3C 00 74 07 46 B4 0E CD 
+                10 EB F2 5E 58                      
+[ 250]    0481: E9 08 FE                              JMP WHILE_
+[ 251]    0484: EB BB                                 JMP P_EXIT
+[ 252]        :                                       
+[ 253]    0486:                                       J_MOT:
+[ 254]    0486: A1 00 00 01 06 06 00 BA 00 00 BB 0A   MAC_PRINT A
+                00 B9 00 00 F7 F3 52 BA 00 00 B4 00 
+                41 3D 00 00 75 F2 50 56 EB 03 0D 0A 
+                00 BE 28 02 2E 8A 04 3C 00 74 07 46 
+                B4 0E CD 10 EB F2 5E 58 5A 83 C2 30 
+                B4 02 CD 21 E2 F6                   
+[ 255]        :                                       
+[ 256]    04C8: FF 06 08 00                           INC COUNT
+[ 257]    04CC: FF 06 0A 00                           INC S_MOT
+[ 258]        :                                       
+[ 259]        :                                       
+[ 260]    04D0: E9 B9 FD                              JMP WHILE_
+[ 261]    04D3: E9 6B FF                              JMP P_EXIT
+[ 262]        :                                       
+[ 263]        :                                       
+[ 264]        :                                       
+[ 265]    04D6:                                       PROC_CAR PROC
+[ 266]    04D6: 83 3E 08 00 39                        CMP COUNT,'9'
+[ 267]    04DB: 7E 3B                                 JLE J_CAR
+[ 268]    04DD: 50 56 EB 1E 2D 2D 2D 20 21 21 20 50   PRINT "--- !! Parking Is Full !! ---"
+                61 72 6B 69 6E 67 20 49 73 20 46 75 
+                6C 6C 20 21 21 20 2D 2D 2D 00 BE 61 
+                02 2E 8A 04 3C 00 74 07 46 B4 0E CD 
+                10 EB F2 5E 58                      
+[ 269]    0512: E9 77 FD                              JMP WHILE_
+[ 270]    0515: E9 29 FF                              JMP P_EXIT
+[ 271]        :                                       
+[ 272]    0518:                                       J_CAR:
+[ 273]    0518: A1 02 00 01 06 06 00 BA 00 00 BB 0A   MAC_PRINT2 B
+                00 B9 00 00 F7 F3 52 BA 00 00 B4 00 
+                41 3D 00 00 75 F2 50 56 EB 03 0D 0A 
+                00 BE BA 02 2E 8A 04 3C 00 74 07 46 
+                B4 0E CD 10 EB F2 5E 58 5A 83 C2 30 
+                B4 02 CD 21 E2 F6                   
+[ 274]        :                                       
+[ 275]    055A: FF 06 08 00                           INC COUNT
+[ 276]    055E: FF 06 0C 00                           INC S_CAR
+[ 277]    0562: E9 27 FD                              JMP WHILE_
+[ 278]    0565: E9 D9 FE                              JMP P_EXIT
+[ 279]        :                                       
+[ 280]        :                                       
+[ 281]        :                                       
+[ 282]        :                                       
+[ 283]    0568:                                       PROC_BUS PROC
+[ 284]    0568: 83 3E 08 00 39                        CMP COUNT,'9'
+[ 285]    056D: 7E 3B                                 JLE J_BUS
+[ 286]    056F: 50 56 EB 1E 2D 2D 2D 20 21 21 20 50   PRINT "--- !! Parking Is Full !! ---"
+                61 72 6B 69 6E 67 20 49 73 20 46 75 
+                6C 6C 20 21 21 20 2D 2D 2D 00 BE F3 
+                02 2E 8A 04 3C 00 74 07 46 B4 0E CD 
+                10 EB F2 5E 58                      
+[ 287]    05A4: E9 E5 FC                              JMP WHILE_
+[ 288]    05A7: E9 97 FE                              JMP P_EXIT
+[ 289]        :                                       
+[ 290]    05AA:                                       J_BUS:
+[ 291]    05AA: A1 04 00 01 06 06 00 BA 00 00 BB 0A   MAC_PRINT3 C
+                00 B9 00 00 F7 F3 52 BA 00 00 B4 00 
+                41 3D 00 00 75 F2 50 56 EB 03 0D 0A 
+                00 BE 4C 03 2E 8A 04 3C 00 74 07 46 
+                B4 0E CD 10 EB F2 5E 58 5A 83 C2 30 
+                B4 02 CD 21 E2 F6                   
+[ 292]        :                                       
+[ 293]    05EC: FF 06 08 00                           INC COUNT
+[ 294]    05F0: FF 06 0C 00                           INC S_CAR
+[ 295]    05F4: E9 95 FC                              JMP WHILE_
+[ 296]    05F7: E9 47 FE                              JMP P_EXIT
+[ 297]        :                                       
+[ 298]    05FA: E9 8F FC                              JMP WHILE_
+[ 299]        :                                       
+[ 300]        :                                       
+[ 301]        :                                       
+[ 302]        :                                       
+[ 303]    05FD:                                       PROC_RECORD PROC
+[ 304]    05FD: 50 56 EB 03 0D 0A 00 BE 81 03 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 305]    0617: B4 09                                 MOV AH,09H
+[ 306]    0619: BA 10 00                              LEA DX,M1
+[ 307]    061C: CD 21                                 INT 21H
+[ 308]        :                                       
+[ 309]    061E: A1 06 00 BA 00 00 BB 0A 00 B9 00 00   MAC_TOTAL AMOUNT
+                F7 F3 52 BA 00 00 41 3D 00 00 75 F4 
+                5A 83 C2 30 B4 02 CD 21 E2 F6       
+[ 310]        :                                       
+[ 311]    0640: 33 D2                                 XOR DX,DX
+[ 312]        :                                       
+[ 313]    0642: 50 56 EB 03 0D 0A 00 BE C6 03 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 314]    065C: B4 09                                 MOV AH,09H
+[ 315]    065E: BA 22 00                              LEA DX,M2
+[ 316]    0661: CD 21                                 INT 21H
+[ 317]    0663: 8B 16 08 00                           MOV DX,COUNT
+[ 318]    0667: B4 02                                 MOV AH,2
+[ 319]    0669: CD 21                                 INT 21H
+[ 320]        :                                       
+[ 321]    066B: 50 56 EB 03 0D 0A 00 BE EF 03 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 322]    0685: B4 09                                 MOV AH,09H
+[ 323]    0687: BA 3C 00                              LEA DX,M3
+[ 324]    068A: CD 21                                 INT 21H
+[ 325]    068C: 8B 16 0A 00                           MOV DX,S_MOT
+[ 326]    0690: B4 02                                 MOV AH,2
+[ 327]    0692: CD 21                                 INT 21H
+[ 328]        :                                       
+[ 329]    0694: 50 56 EB 03 0D 0A 00 BE 18 04 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 330]    06AE: B4 09                                 MOV AH,09H
+[ 331]    06B0: BA 5A 00                              LEA DX,M4
+[ 332]    06B3: CD 21                                 INT 21H
+[ 333]    06B5: 8B 16 0C 00                           MOV DX,S_CAR
+[ 334]    06B9: B4 02                                 MOV AH,2
+[ 335]    06BB: CD 21                                 INT 21H
+[ 336]        :                                       
+[ 337]    06BD: 50 56 EB 03 0D 0A 00 BE 41 04 2E 8A   PRINTN
+                04 3C 00 74 07 46 B4 0E CD 10 EB F2 
+                5E 58                               
+[ 338]    06D7: B4 09                                 MOV AH,09H
+[ 339]    06D9: BA 70 00                              LEA DX,M5
+[ 340]    06DC: CD 21                                 INT 21H
+[ 341]    06DE: 8B 16 0E 00                           MOV DX,S_BUS
+[ 342]    06E2: B4 02                                 MOV AH,2
+[ 343]    06E4: CD 21                                 INT 21H
+[ 344]        :                                       
+[ 345]        :                                       
+[ 346]    06E6: E9 A3 FB                              JMP WHILE_
+[ 347]    06E9: E9 55 FD                              JMP P_EXIT
+[ 348]        :                                       
+[ 349]        :                                       
+[ 350]    06EC:                                       PROC_DELET PROC
+[ 351]    06EC: C7 06 0A 00 30 00                     MOV S_MOT,'0'
+[ 352]    06F2: C7 06 0C 00 30 00                     MOV S_CAR,'0'
+[ 353]    06F8: C7 06 0E 00 30 00                     MOV S_BUS,'0'
+[ 354]    06FE: C7 06 06 00 00 00                     MOV AMOUNT,00
+[ 355]    0704: C7 06 08 00 30 00                     MOV COUNT,'0'
+[ 356]    070A: 50 56 EB 24 2D 2D 2D 20 21 21 20 20   PRINT "--- !!  Delete successfully  !! ---"
+                44 65 6C 65 74 65 20 73 75 63 63 65 
+                73 73 66 75 6C 6C 79 20 20 21 21 20 
+                2D 2D 2D 00 BE 8E 04 2E 8A 04 3C 00 
+                74 07 46 B4 0E CD 10 EB F2 5E 58    
+[ 357]        :                                       
+[ 358]        :                                       
+[ 359]    0745: E9 44 FB                              JMP WHILE_
+[ 360]    0748: E9 F6 FC                              JMP P_EXIT
+[ 361]        :                                       
+[ 362]        :                                       
+[ 363]        :                                       END MAIN
+[ 364]        :                                       
+[ 365]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 4B      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 05      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 30      -   check sum (l.byte)
+0013: 5F      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 28      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 28      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

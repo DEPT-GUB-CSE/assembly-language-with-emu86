@@ -1,0 +1,11 @@
+org 200h
+
+
+mov BX,100h
+mov CX,BX
+add AX,10h
+
+ret
+
+
+

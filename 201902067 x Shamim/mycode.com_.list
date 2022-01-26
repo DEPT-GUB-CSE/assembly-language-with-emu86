@@ -1,0 +1,61 @@
+                                                ; #fasm#          ; this code is for flat assembler
+                                                
+                                                ; name "mycode"   ; output file name (max 8 chars for DOS compatibility)
+                                                
+                                                org  100h	; set location counter to 100h
+                                                
+                                                ; you may customize this and other start-up templates 
+                                                ; the location of this template is c:\emu8086\inc\fasm_0_com_template.txt
+                                                
+                                                ; disable blinking (for DOS/BIOS compatibility).
+00000000: B8 03 10                              mov ax, 1003h  
+00000003: BB 00 00                              mov bx, 0        
+00000006: CD 10                                 int 10h
+                                                
+                                                ; this is just a random code
+00000008: B8 34 12                              mov ax, 1234h      ; load ax with hexadecimal value.
+0000000B: BA 34 12                              mov dx, 0x1234     ; 0x is a valid hexadecimal prefix too.
+0000000E: B8 D2 04                              mov ax, 1234       ; load ax with 04D2h = decimal 1234 = 10011010010b.
+00000011: B8 CD AB                              mov ax, 0ABCDh     ; must have 0 prefix if first digit is A,B,C,D,E or F
+00000014: BA CD AB                              mov dx, 0xABCD     ;                                      or use 0x prefix.
+00000017: 8A 16 1D 01                           mov dl, [test1]    ; fasm IS case sensitive, test1<>TeSt1, AX=ax, etc...
+0000001B: EB 01                                 jmp n              ; jump over 1 byte to skip over the test1 variable.
+0000001D: 20                                    test1 db 20h       ; 1 byte variable 20h = 32.
+                                                n:
+0000001E: 00 D2                                 add dl, dl         ; dl = dl+dl = 20h+20h = 40h = 64 = 01000000b.
+00000020: FE C2                                 inc dl             ; dl = dl+1 = 41h = 65 = 'A' (ascii code).
+00000022: B4 02                                 mov ah, 2          ; ah and dl are parameters for int 21h.
+00000024: CD 21                                 int 21h            ; print 'A'.
+00000026: B2 01                                 mov dl, 1          ; ascii code 1 is a funny face.
+00000028: CD 21                                 int 21h            ; print it.
+0000002A: B0 E5                                 mov al, 11100101b  ; b suffix is for binary. 11100101b = 0xE5 = 229
+0000002C: 34 FE                                 xor al, 11111110b  ;
+                                                
+                                                ; add your code here
+                                                
+0000002E: BA 05 07                              mov dx, 0705h      ; print message using BIOS function at 7,5
+00000031: BB 00 00                              mov bx, 0          ; page 0.
+00000034: B3 9F                                 mov bl, 10011111b  ; white on blue.
+00000036: B9 10 00                              mov cx, msg_size   ; number of characters to print.
+00000039: B0 01                                 mov al, 01b        ; update cursor only.
+0000003B: BD 47 01                              mov bp, msg
+0000003E: B4 13                                 mov ah, 13h        ; BIOS function for print.
+00000040: CD 10                                 int 10h            ; print message at es:bp.
+                                                
+00000042: B4 00                                 mov ah, 0          ; wait for any key....
+00000044: CD 16                                 int 10110b         ; same as int 16h or int 22.
+                                                
+00000046: C3                                    ret   ; return to the operating system.
+                                                
+00000047: 70 72 65 73 73 20 61 6E 79 20 6B 65   msg:         db "press any key..."
+          79 2E 2E 2E                           msg_tail:
+                                                msg_size = msg_tail - msg
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                

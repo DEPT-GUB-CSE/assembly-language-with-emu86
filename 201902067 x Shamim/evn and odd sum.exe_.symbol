@@ -1,0 +1,29 @@
+< THE SYMBOL TABLE >  evn and odd sum.exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+N                        	00000     	1         	VAR       	data      
+ODD                      	00001     	1         	VAR       	data      
+EVEN                     	00002     	1         	VAR       	data      
+R                        	00003     	1         	VAR       	data      
+Z                        	00004     	1         	VAR       	data      
+A                        	00005     	1         	VAR       	data      
+R1                       	00005     	1         	VAR       	data      
+R2                       	00021     	1         	VAR       	data      
+R5                       	00044     	1         	VAR       	data      
+R6                       	0005D     	1         	VAR       	data      
+CODE                     	00018     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	NEAR      	code      
+LOOP_1                   	00032     	-1        	LABEL     	code      
+LOOP_2                   	0004C     	-1        	LABEL     	code      
+RESULT_1                 	00060     	-1        	LABEL     	code      
+RESULT_2                 	0006B     	-1        	LABEL     	code      
+LOOP_3                   	00076     	-1        	LABEL     	code      
+RESULT_3                 	0008A     	-1        	LABEL     	code      
+RESULT_4                 	00095     	-1        	LABEL     	code      
+===================================================================================================
+[ 12/6/2021  --  5:44:57 PM ] 
+< END >
+ 

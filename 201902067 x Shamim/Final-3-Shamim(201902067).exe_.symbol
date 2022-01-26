@@ -1,0 +1,35 @@
+< THE SYMBOL TABLE >  Final-3-Shamim(201902067).exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+N                        	00000     	1         	VAR       	data      
+ARR                      	00001     	1         	VAR       	data      
+MSG                      	00001     	1         	VAR       	data      
+MSG1                     	00017     	1         	VAR       	data      
+MSG2                     	00031     	1         	VAR       	data      
+MSG3                     	0003D     	1         	VAR       	data      
+MSG4                     	00049     	1         	VAR       	data      
+TOTAL                    	00056     	2         	VAR       	data      
+AVERAGE_ANS              	00058     	1         	VAR       	data      
+LARGE                    	00059     	1         	VAR       	data      
+SMALL                    	0005A     	1         	VAR       	data      
+CODE                     	00016     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	NEAR      	code      
+INPUT                    	00025     	-1        	LABEL     	code      
+AVERAGE                  	0003D     	-1        	NEAR      	code      
+AVG                      	0004D     	-1        	LABEL     	code      
+LARGEST                  	00066     	-1        	NEAR      	code      
+COMPARE                  	0007F     	-1        	LABEL     	code      
+SWAP                     	00086     	-1        	LABEL     	code      
+SKIP                     	0008D     	-1        	LABEL     	code      
+SMALLEST                 	00091     	-1        	NEAR      	code      
+COMPARE1                 	000AA     	-1        	LABEL     	code      
+SWAP1                    	000B1     	-1        	LABEL     	code      
+SKIP1                    	000B8     	-1        	LABEL     	code      
+OUTPUT                   	000BC     	-1        	NEAR      	code      
+===================================================================================================
+[ 1/3/2022  --  5:03:57 PM ] 
+< END >
+ 

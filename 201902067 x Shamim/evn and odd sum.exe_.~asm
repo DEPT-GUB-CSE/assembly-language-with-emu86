@@ -1,0 +1,195 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+n db ?
+odd db ?
+even db ?
+
+R db ?
+z db ?
+
+A db n dup (?)
+
+
+
+
+R1 DB "Enter the number of input: $"
+R2 DB 0AH,0DH,"Enter the all element of index: $"
+
+R5 DB 0AH,0DH,"The summation of odd: $"
+R6 DB 0AH,0DH,"The summation of even: $"
+
+.CODE
+MAIN PROC
+
+
+
+mov ax, @DATA
+mov ds, ax
+
+mov odd,0
+mov even, 0
+mov bx,0
+
+lea dx,R1
+mov ah,9
+int 21H
+
+mov ah,1
+int 21H
+sub al,30H
+mov n,al
+
+lea dx,R2
+mov ah,9
+int 21H
+
+
+xor cx,cx
+mov cl,n
+mov si,0
+
+
+Loop_1:
+
+mov ah,1
+int 21H
+sub al,30H
+
+mov A[si],al
+
+
+inc si
+
+
+loop Loop_1
+
+
+xor cx,cx
+mov cl,n
+mov z,2
+mov si,0
+
+Loop_2:
+
+
+MOV AX,00
+MOV AL,A[si]
+DIV z
+mov di,si
+inc si
+
+CMP AH,00
+
+JZ RESULT_1
+
+JNZ RESULT_2
+
+
+
+RESULT_1:
+mov bl,even
+
+add bl,A[di]
+
+mov even,bl
+
+RESULT_2:
+
+
+loop Loop_2
+
+xor cx,cx
+mov cl,n
+mov si,0
+
+Loop_3:
+
+
+MOV AX,00
+MOV AL,A[si]
+DIV z
+mov di,si
+inc si
+
+CMP AH,00
+
+JNZ RESULT_3
+
+JZ RESULT_4
+
+
+
+RESULT_3:
+
+mov bl,odd
+add bl,A[di]
+mov odd,bl
+
+RESULT_4:
+
+loop Loop_3
+
+lea dx,R5
+mov ah,9
+int 21H
+
+mov R,10
+
+xor ax,ax
+
+mov al,odd
+
+div R
+mov bh,ah
+
+mov ah,2
+mov dl,al
+add dl,30H
+int 21H
+
+mov ah,2
+mov dl,bh
+add dl,30H
+int 21H
+
+lea dx,R6
+mov ah,9
+int 21H
+
+
+
+xor ax,ax
+
+mov al,even
+
+div R
+mov bh,ah
+
+mov ah,2
+mov dl,al
+add dl,30H
+int 21H
+
+mov ah,2
+mov dl,bh
+add dl,30H
+int 21H
+
+
+
+
+
+
+
+
+mov ah, 4ch
+int 21h
+
+MAIN ENDP
+END MAIN
+
+
+
+; [SOURCE]: C:\emu8086\MySource\evn and odd sum.asm

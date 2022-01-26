@@ -1,0 +1,145 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+lab 2.exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 11/29/2021  --  11:25:18 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .MODEL SMALL
+[   2]        :                                       .STACK 100H
+[   3]        :                                       .DATA
+[   4]        :                                       
+[   5]    0100: 45 6E 74 65 72 20 68 6F 77 20 6D 61   msg1 DB "Enter how many number you want: $"
+                6E 79 20 6E 75 6D 62 65 72 20 79 6F 
+                75 20 77 61 6E 74 3A 20 24          
+[   6]    0121: 0A 0D 45 6E 74 65 72 20 74 68 65 20   msg2 DB 0AH,0DH,"Enter the all element: $"
+                61 6C 6C 20 65 6C 65 6D 65 6E 74 3A 
+                20 24                               
+[   7]    013B: 0A 0D 54 68 65 20 65 6C 65 6D 65 6E   msg3 DB 0AH,0DH,"The element you enter: $"
+                74 20 79 6F 75 20 65 6E 74 65 72 3A 
+                20 24                               
+[   8]    0155: 20 2C 20 24                           saperat DB " , $"
+[   9]        :                                       
+[  10]    0159: 00                                    n db ?
+[  11]    015A: 00 00 00 00 00 00 00 00 00 00 00 00   arr db n dup (?)
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00                      
+[  12]        :                                       
+[  13]        :                                       .CODE
+[  14]        :                                       
+[  15]        :                                       
+[  16]    01C0:                                       MAIN PROC
+[  17]    01C0: B8 10 00                              mov ax, @DATA
+[  18]    01C3: 8E D8                                 mov ds, ax
+[  19]        :                                       
+[  20]    01C5: BA 00 00                              lea dx,msg1
+[  21]    01C8: B4 09                                 mov ah,9
+[  22]    01CA: CD 21                                 int 21H
+[  23]        :                                       
+[  24]    01CC: B4 01                                 mov ah,1
+[  25]    01CE: CD 21                                 int 21H
+[  26]    01D0: 2C 30                                 sub al,30H
+[  27]    01D2: A2 59 00                              mov n,al
+[  28]        :                                       
+[  29]        :                                       
+[  30]    01D5: BA 21 00                              lea dx,msg2
+[  31]    01D8: B4 09                                 mov ah,9
+[  32]    01DA: CD 21                                 int 21H
+[  33]        :                                       
+[  34]        :                                       
+[  35]    01DC: 33 C9                                 xor cx,cx
+[  36]    01DE: 8A 0E 59 00                           mov cl,n
+[  37]    01E2: BE 00 00                              mov si,0
+[  38]        :                                       
+[  39]        :                                       
+[  40]    01E5:                                       Loop1:
+[  41]        :                                       
+[  42]    01E5: B4 01                                 mov ah,1
+[  43]    01E7: CD 21                                 int 21H
+[  44]    01E9: 2C 30                                 sub al,30H
+[  45]    01EB: 88 44 5A                              mov arr[si],al
+[  46]    01EE: 46                                    inc si
+[  47]    01EF: E2 F4                                 loop Loop1
+[  48]        :                                       
+[  49]    01F1: BE 00 00                              mov si,0
+[  50]    01F4: BA 3B 00                              lea dx,msg3
+[  51]    01F7: B4 09                                 mov ah,9
+[  52]    01F9: CD 21                                 int 21H
+[  53]        :                                       
+[  54]        :                                       
+[  55]    01FB: 33 C9                                 xor cx,cx
+[  56]    01FD: 8A 0E 59 00                           mov cl,n
+[  57]        :                                       
+[  58]    0201:                                       Loop2:
+[  59]        :                                       
+[  60]    0201: 33 D2                                 xor dx,dx
+[  61]    0203: B4 02                                 mov ah,02h
+[  62]    0205: 8A 54 5A                              mov dl,arr[si]
+[  63]    0208: 80 C2 30                              add dl,30H
+[  64]    020B: CD 21                                 int 21h
+[  65]    020D: 46                                    inc si
+[  66]    020E: BA 55 00                              lea dx, saperat
+[  67]    0211: B4 09                                 mov ah,9
+[  68]    0213: CD 21                                 int 21H
+[  69]    0215: E2 EA                                 loop Loop2
+[  70]        :                                       
+[  71]        :                                       
+[  72]    0217: B4 4C                                 mov ah, 4ch
+[  73]    0219: CD 21                                 int 21h
+[  74]        :                                       
+[  75]        :                                       MAIN ENDP
+[  76]        :                                       END MAIN
+[  77]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 1B      -   bytes on last page (l.byte)
+0003: 00      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 43      -   check sum (l.byte)
+0013: BC      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 1C      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 1C      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

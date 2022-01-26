@@ -1,0 +1,30 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+A DB ?
+B DB ?
+.CODE
+MAIN PROC
+
+MOV AX, @DATA
+MOV DS, AX
+
+MOV AH,1
+INT 21H
+
+MOV A, AL
+
+MOV AH,1
+INT 21H
+
+MOV B,AL
+
+
+
+MAIN ENDP
+END MAIN
+
+
+
+
+; [SOURCE]: C:\emu8086\MySource\multi.asm

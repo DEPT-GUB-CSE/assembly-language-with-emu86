@@ -1,0 +1,207 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+2 digit.exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 11/9/2021  --  2:00:15 AM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .MODEL SMALL
+[   2]        :                                       .STACK 100H
+[   3]        :                                       .DATA
+[   4]    0100: 45 6E 74 65 72 20 79 6F 75 72 20 66   im1 DB "Enter your first two digit number  $"
+                69 72 73 74 20 74 77 6F 20 64 69 67 
+                69 74 20 6E 75 6D 62 65 72 20 20 24 
+                                                    
+[   5]    0124: 0A 0D 45 6E 74 65 72 20 79 6F 75 72   im2 DB 0AH,0DH,"Enter your second two digit number $"
+                20 73 65 63 6F 6E 64 20 74 77 6F 20 
+                64 69 67 69 74 20 6E 75 6D 62 65 72 
+                20 24                               
+[   6]        :                                       
+[   7]    014A: 00 00                                 num1 DW ?
+[   8]    014C: 00 00                                 num2 DW ?
+[   9]    014E: 00 00                                 addition DW ?
+[  10]        :                                       
+[  11]    0150: 00 00                                 subtraction DW ?
+[  12]    0152: 0A 0D 47 61 74 65 72 20 6E 75 6D 62   msg1 DB 0AH,0DH,"Gater number is $"
+                65 72 20 69 73 20 24                
+[  13]    0165: 0A 0D 4C 65 73 73 65 72 20 6E 75 6D   msg2 DB 0AH,0DH,"Lesser number is $"
+                62 65 72 20 69 73 20 24             
+[  14]        :                                       
+[  15]        :                                       
+[  16]        :                                       .CODE
+[  17]    0180:                                       MAIN PROC
+[  18]    0180: B8 10 00                              MOV AX,@DATA
+[  19]    0183: 8E D8                                 MOV DS,AX
+[  20]        :                                       
+[  21]    0185: BA 00 00                              LEA DX,im1
+[  22]    0188: B4 09                                 MOV AH,09
+[  23]    018A: CD 21                                 INT 21H
+[  24]        :                                       
+[  25]    018C: B4 01                                 MOV AH,1
+[  26]    018E: CD 21                                 INT 21H
+[  27]    0190: 2C 30                                 SUB AL,30H
+[  28]    0192: 8A F8                                 MOV BH,AL
+[  29]        :                                       
+[  30]    0194: B4 01                                 MOV AH,1
+[  31]    0196: CD 21                                 INT 21H
+[  32]    0198: 2C 30                                 SUB AL,30H
+[  33]    019A: 8A D8                                 MOV BL,AL
+[  34]        :                                       
+[  35]    019C: 33 C0                                 XOR AX,AX
+[  36]    019E: 8A C7                                 MOV AL,BH
+[  37]    01A0: B1 0A                                 MOV CL,10
+[  38]    01A2: F6 E1                                 MUL CL
+[  39]    01A4: 02 C3                                 ADD AL,BL
+[  40]    01A6: A3 4A 00                              MOV num1,AX
+[  41]        :                                       
+[  42]    01A9: BA 24 00                              LEA DX,im2
+[  43]    01AC: B4 09                                 MOV AH,09
+[  44]    01AE: CD 21                                 INT 21H
+[  45]        :                                       
+[  46]    01B0: B4 01                                 MOV AH,1
+[  47]    01B2: CD 21                                 INT 21H
+[  48]    01B4: 2C 30                                 SUB AL,30H
+[  49]    01B6: 8A F8                                 MOV BH,AL
+[  50]        :                                       
+[  51]    01B8: B4 01                                 MOV AH,1
+[  52]    01BA: CD 21                                 INT 21H
+[  53]    01BC: 2C 30                                 SUB AL,30H
+[  54]    01BE: 8A D8                                 MOV BL,AL
+[  55]        :                                       
+[  56]    01C0: 33 C0                                 XOR AX,AX
+[  57]    01C2: 8A C7                                 MOV AL,BH
+[  58]    01C4: B1 0A                                 MOV CL,10
+[  59]    01C6: F6 E1                                 MUL CL
+[  60]    01C8: 02 C3                                 ADD AL,BL
+[  61]    01CA: A3 4C 00                              MOV num2,AX
+[  62]        :                                       
+[  63]        :                                       
+[  64]    01CD: A1 4A 00                              MOV AX,num1
+[  65]    01D0: 8B 1E 4C 00                           MOV BX,num2
+[  66]    01D4: 03 C3                                 ADD AX,BX
+[  67]    01D6: A3 4E 00                              MOV addition,AX
+[  68]        :                                       
+[  69]    01D9: 33 C0                                 XOR AX,AX
+[  70]    01DB: A1 4A 00                              MOV AX,num1
+[  71]    01DE: 8B 1E 4C 00                           MOV BX,num2
+[  72]        :                                       
+[  73]    01E2: 2B C3                                 SUB AX,BX
+[  74]    01E4: A3 50 00                              MOV subtraction,AX
+[  75]    01E7: A1 4A 00                              MOV AX,num1
+[  76]    01EA: 8B 1E 4C 00                           MOV BX,num2
+[  77]        :                                       
+[  78]    01EE: 3B C3                                 CMP AX,BX
+[  79]        :                                       
+[  80]    01F0: 7F 02                                 JG GRATER
+[  81]    01F2: 7C 2F                                 JL LESS
+[  82]        :                                       
+[  83]        :                                       
+[  84]    01F4:                                       GRATER:
+[  85]        :                                       
+[  86]    01F4: BA 52 00                              LEA DX,msg1
+[  87]    01F7: B4 09                                 MOV AH,09
+[  88]    01F9: CD 21                                 INT 21H
+[  89]        :                                       
+[  90]    01FB: 33 C0                                 XOR AX,AX
+[  91]    01FD: 33 DB                                 XOR BX,BX
+[  92]    01FF: 33 D2                                 XOR DX,DX
+[  93]    0201: 33 C9                                 XOR CX,CX
+[  94]        :                                       
+[  95]    0203: A1 4A 00                              MOV AX,num1
+[  96]    0206: BB 0A 00                              MOV BX,10
+[  97]    0209: F7 F3                                 DIV BX
+[  98]    020B: 8A F8                                 MOV BH,AL
+[  99]    020D: 8A DA                                 MOV BL,DL
+[ 100]    020F: 80 C7 30                              ADD BH,30H
+[ 101]    0212: 80 C3 30                              ADD BL,30H
+[ 102]    0215: B4 02                                 MOV AH,2
+[ 103]    0217: 8A D7                                 MOV DL,BH
+[ 104]    0219: CD 21                                 INT 21H
+[ 105]    021B: 8A D3                                 MOV DL,BL
+[ 106]    021D: CD 21                                 INT 21H
+[ 107]        :                                       
+[ 108]        :                                       
+[ 109]    021F: B4 4C                                 MOV AH,4CH
+[ 110]    0221: CD 21                                 INT 21H
+[ 111]        :                                       
+[ 112]    0223:                                       LESS:
+[ 113]        :                                       
+[ 114]    0223: BA 52 00                              LEA DX,msg1
+[ 115]    0226: B4 09                                 MOV AH,09
+[ 116]    0228: CD 21                                 INT 21H
+[ 117]        :                                       
+[ 118]    022A: 33 C0                                 XOR AX,AX
+[ 119]    022C: 33 DB                                 XOR BX,BX
+[ 120]    022E: 33 D2                                 XOR DX,DX
+[ 121]    0230: 33 C9                                 XOR CX,CX
+[ 122]        :                                       
+[ 123]    0232: A1 4C 00                              MOV AX,num2
+[ 124]    0235: BB 0A 00                              MOV BX,10
+[ 125]    0238: F7 F3                                 DIV BX
+[ 126]    023A: 8A F8                                 MOV BH,AL
+[ 127]    023C: 8A DA                                 MOV BL,DL
+[ 128]    023E: 80 C7 30                              ADD BH,30H
+[ 129]    0241: 80 C3 30                              ADD BL,30H
+[ 130]    0244: B4 02                                 MOV AH,2
+[ 131]    0246: 8A D7                                 MOV DL,BH
+[ 132]    0248: CD 21                                 INT 21H
+[ 133]    024A: 8A D3                                 MOV DL,BL
+[ 134]    024C: CD 21                                 INT 21H
+[ 135]        :                                       
+[ 136]        :                                       
+[ 137]    024E: B4 4C                                 MOV AH,4CH
+[ 138]    0250: CD 21                                 INT 21H
+[ 139]        :                                       
+[ 140]        :                                       
+[ 141]        :                                       MAIN ENDP
+[ 142]        :                                       END MAIN
+[ 143]        :                                       
+[ 144]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 52      -   bytes on last page (l.byte)
+0003: 00      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 7B      -   check sum (l.byte)
+0013: 15      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 18      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 18      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

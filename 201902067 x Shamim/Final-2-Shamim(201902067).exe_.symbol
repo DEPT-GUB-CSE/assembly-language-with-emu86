@@ -1,0 +1,19 @@
+< THE SYMBOL TABLE >  Final-2-Shamim(201902067).exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+MSG                      	00000     	1         	VAR       	data      
+MSG1                     	00013     	1         	VAR       	data      
+N                        	00024     	1         	VAR       	data      
+M                        	00025     	2         	VAR       	data      
+RESULT                   	00027     	2         	VAR       	data      
+CODE                     	00013     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	NEAR      	code      
+LABEL                    	00022     	-1        	LABEL     	code      
+OUTPUT                   	0003C     	-1        	LABEL     	code      
+===================================================================================================
+[ 1/3/2022  --  5:03:20 PM ] 
+< END >
+ 

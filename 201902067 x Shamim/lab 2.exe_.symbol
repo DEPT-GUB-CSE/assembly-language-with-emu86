@@ -1,0 +1,20 @@
+< THE SYMBOL TABLE >  lab 2.exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+MSG1                     	00000     	1         	VAR       	data      
+MSG2                     	00021     	1         	VAR       	data      
+MSG3                     	0003B     	1         	VAR       	data      
+SAPERAT                  	00055     	1         	VAR       	data      
+N                        	00059     	1         	VAR       	data      
+ARR                      	0005A     	1         	VAR       	data      
+CODE                     	0001C     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	NEAR      	code      
+LOOP1                    	00025     	-1        	LABEL     	code      
+LOOP2                    	00041     	-1        	LABEL     	code      
+===================================================================================================
+[ 11/29/2021  --  11:25:18 PM ] 
+< END >
+ 

@@ -1,0 +1,215 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+Final-3-Shamim(201902067).exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 1/3/2022  --  5:03:56 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .MODEL SMALL
+[   2]        :                                       .STACK 100H
+[   3]        :                                       .DATA
+[   4]    0100: 00                                    n db ?
+[   5]    0101:                                       arr db n dup(?)
+[   6]    0101: 45 6E 74 65 72 20 73 69 7A 65 20 6F   msg db "Enter size of array: $"
+                66 20 61 72 72 61 79 3A 20 24       
+[   7]    0117: 0A 0D 45 6E 74 65 72 20 61 72 72 61   msg1 db 0AH,0DH,"Enter arrays elements: $"
+                79 73 20 65 6C 65 6D 65 6E 74 73 3A 
+                20 24                               
+[   8]    0131: 0A 0D 41 76 65 72 61 67 65 3A 20 24   msg2 db 0aH,0DH,"Average: $"
+                                                    
+[   9]    013D: 0A 0D 4C 61 72 67 65 73 74 3A 20 24   msg3 db 0AH,0DH,"Largest: $"
+                                                    
+[  10]    0149: 0A 0D 53 6D 61 6C 6C 65 73 74 3A 20   msg4 db 0AH,0DH,"Smallest: $"
+                24                                  
+[  11]        :                                       
+[  12]    0156: 00 00                                 total dw ?
+[  13]    0158: 00                                    average_ans db ?
+[  14]    0159: 00                                    large db ?
+[  15]    015A: 00                                    small db ?
+[  16]        :                                       .CODE
+[  17]    0160:                                       MAIN PROC
+[  18]    0160: B8 10 00                              MOV AX,@DATA
+[  19]    0163: 8E D8                                 MOV DS,AX
+[  20]        :                                       
+[  21]    0165: BA 01 00                              LEA DX,msg
+[  22]    0168: B4 09                                 MOV AH,09
+[  23]    016A: CD 21                                 INT 21H
+[  24]        :                                       
+[  25]    016C: B4 01                                 MOV AH,1
+[  26]    016E: CD 21                                 INT 21H
+[  27]    0170: 2C 30                                 SUB AL,30H
+[  28]    0172: A2 00 00                              MOV N,AL
+[  29]        :                                       
+[  30]    0175: BA 17 00                              LEA DX,msg1
+[  31]    0178: B4 09                                 MOV AH,09
+[  32]    017A: CD 21                                 INT 21H
+[  33]        :                                       
+[  34]    017C: 33 C9                                 XOR CX,CX
+[  35]    017E: 8A 0E 00 00                           MOV CL,N
+[  36]    0182: BE 00 00                              MOV SI,0
+[  37]        :                                       
+[  38]    0185:                                       INPUT:
+[  39]    0185: B4 01                                 MOV AH,1
+[  40]    0187: CD 21                                 INT 21H
+[  41]    0189: 2C 30                                 SUB AL,30H
+[  42]    018B: 88 44 01                              MOV ARR[SI],AL
+[  43]    018E: 46                                    INC SI
+[  44]    018F: E2 F4                                 LOOP INPUT
+[  45]        :                                       
+[  46]    0191: E8 09 00                              CALL AVERAGE
+[  47]    0194: E8 2F 00                              CALL LARGEST
+[  48]    0197: E8 57 00                              CALL SMALLEST
+[  49]    019A: E8 7F 00                              CALL OUTPUT
+[  50]        :                                       MAIN ENDP
+[  51]        :                                       
+[  52]    019D:                                       AVERAGE PROC
+[  53]    019D: 33 C9                                 XOR CX,CX
+[  54]    019F: 33 C0                                 XOR AX,AX
+[  55]    01A1: 8B DB                                 MOV BX,BX
+[  56]    01A3: 8A 0E 00 00                           MOV CL,N
+[  57]    01A7: BE 00 00                              MOV SI,0
+[  58]    01AA: BB 00 00                              MOV BX,0
+[  59]        :                                       
+[  60]    01AD:                                       AVG:
+[  61]    01AD: 02 5C 01                              ADD BL,ARR[SI]
+[  62]    01B0: 46                                    INC SI
+[  63]    01B1: E2 FA                                 LOOP AVG
+[  64]        :                                       
+[  65]    01B3: 89 1E 56 00                           MOV TOTAL,BX
+[  66]    01B7: A1 56 00                              MOV AX,TOTAL
+[  67]    01BA: 8A 1E 00 00                           MOV BL,N
+[  68]    01BE: F6 36 00 00                           DIV N
+[  69]    01C2: A2 58 00                              MOV average_ans,AL
+[  70]    01C5: C3                                    RET
+[  71]        :                                       AVERAGE ENDP
+[  72]        :                                       
+[  73]    01C6:                                       LARGEST PROC
+[  74]    01C6: 33 C9                                 XOR CX,CX
+[  75]    01C8: 33 C0                                 XOR AX,AX
+[  76]    01CA: 8B DB                                 MOV BX,BX
+[  77]    01CC: 8A 0E 00 00                           MOV CL,N
+[  78]    01D0: FE C9                                 DEC CL
+[  79]        :                                       
+[  80]    01D2: BE 00 00                              MOV SI,0
+[  81]    01D5: 8A 5C 01                              MOV BL,ARR[SI]
+[  82]    01D8: 88 1E 59 00                           MOV LARGE,BL
+[  83]    01DC: BE 01 00                              MOV SI,1
+[  84]        :                                       
+[  85]    01DF:                                       COMPARE:
+[  86]    01DF: 3A 5C 01                              CMP BL,ARR[SI]
+[  87]    01E2: 7C 02                                 JL SWAP
+[  88]    01E4: 7F 07                                 JG SKIP
+[  89]    01E6:                                       SWAP:
+[  90]    01E6: 8A 5C 01                              MOV BL,ARR[SI]
+[  91]    01E9: 88 1E 59 00                           MOV LARGE,BL
+[  92]    01ED:                                       SKIP:
+[  93]    01ED: 46                                    INC SI
+[  94]    01EE: E2 EF                                 LOOP COMPARE
+[  95]    01F0: C3                                    RET
+[  96]        :                                       
+[  97]        :                                       LARGEST ENDP
+[  98]        :                                       
+[  99]    01F1:                                       SMALLEST PROC
+[ 100]    01F1: 33 C9                                 XOR CX,CX
+[ 101]    01F3: 33 C0                                 XOR AX,AX
+[ 102]    01F5: 8B DB                                 MOV BX,BX
+[ 103]    01F7: 8A 0E 00 00                           MOV CL,N
+[ 104]    01FB: FE C9                                 DEC CL
+[ 105]        :                                       
+[ 106]    01FD: BE 00 00                              MOV SI,0
+[ 107]    0200: 8A 5C 01                              MOV BL,ARR[SI]
+[ 108]    0203: 88 1E 5A 00                           MOV SMALL,BL
+[ 109]    0207: BE 01 00                              MOV SI,1
+[ 110]        :                                       
+[ 111]    020A:                                       COMPARE1:
+[ 112]    020A: 3A 5C 01                              CMP BL,ARR[SI]
+[ 113]    020D: 7F 02                                 JG SWAP1
+[ 114]    020F: 7C 07                                 JL SKIP1
+[ 115]    0211:                                       SWAP1:
+[ 116]    0211: 8A 5C 01                              MOV BL,ARR[SI]
+[ 117]    0214: 88 1E 5A 00                           MOV SMALL,BL
+[ 118]    0218:                                       SKIP1:
+[ 119]    0218: 46                                    INC SI
+[ 120]    0219: E2 EF                                 LOOP COMPARE1
+[ 121]    021B: C3                                    RET
+[ 122]        :                                       
+[ 123]        :                                       SMALLEST ENDP
+[ 124]        :                                       
+[ 125]    021C:                                       OUTPUT PROC
+[ 126]    021C: BA 31 00                              LEA DX,msg2
+[ 127]    021F: B4 09                                 MOV AH,09
+[ 128]    0221: CD 21                                 INT 21H
+[ 129]        :                                       
+[ 130]    0223: 8A 16 58 00                           MOV DL,average_ans
+[ 131]    0227: 80 C2 30                              ADD DL,30H
+[ 132]    022A: B4 02                                 MOV AH,2
+[ 133]    022C: CD 21                                 INT 21H
+[ 134]        :                                       
+[ 135]    022E: BA 3D 00                              LEA DX,msg3
+[ 136]    0231: B4 09                                 MOV AH,09
+[ 137]    0233: CD 21                                 INT 21H
+[ 138]        :                                       
+[ 139]    0235: 8A 16 59 00                           MOV DL,large
+[ 140]    0239: 80 C2 30                              ADD DL,30H
+[ 141]    023C: B4 02                                 MOV AH,2
+[ 142]    023E: CD 21                                 INT 21H
+[ 143]        :                                       
+[ 144]    0240: BA 49 00                              LEA DX,msg4
+[ 145]    0243: B4 09                                 MOV AH,09
+[ 146]    0245: CD 21                                 INT 21H
+[ 147]        :                                       
+[ 148]    0247: 8A 16 5A 00                           MOV DL,small
+[ 149]    024B: 80 C2 30                              ADD DL,30H
+[ 150]    024E: B4 02                                 MOV AH,2
+[ 151]    0250: CD 21                                 INT 21H
+[ 152]        :                                       OUTPUT ENDP
+[ 153]        :                                       END MAIN
+[ 154]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 52      -   bytes on last page (l.byte)
+0003: 00      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: ED      -   check sum (l.byte)
+0013: 67      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 16      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 16      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

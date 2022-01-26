@@ -1,0 +1,80 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+msg1 DB "Enter how many number you want: $"
+msg2 DB 0AH,0DH,"Enter the all element: $"
+msg3 DB 0AH,0DH,"The element you enter: $"
+saperat DB " , $"
+
+n db ?
+arr db n dup (?)
+
+.CODE
+
+
+MAIN PROC
+mov ax, @DATA
+mov ds, ax
+
+lea dx,msg1
+mov ah,9
+int 21H
+
+mov ah,1
+int 21H
+sub al,30H
+mov n,al
+
+
+lea dx,msg2
+mov ah,9
+int 21H
+
+
+xor cx,cx
+mov cl,n
+mov si,0
+
+
+Loop1:
+
+mov ah,1
+int 21H
+sub al,30H
+mov arr[si],al
+inc si
+loop Loop1
+
+mov si,0
+lea dx,msg3
+mov ah,9
+int 21H
+
+
+xor cx,cx
+mov cl,n
+
+Loop2:
+
+xor dx,dx
+mov ah,02h
+mov dl,arr[si]
+add dl,30H
+int 21h
+inc si
+lea dx, saperat
+mov ah,9
+int 21H
+loop Loop2
+
+
+mov ah, 4ch
+int 21h
+
+MAIN ENDP
+END MAIN
+
+
+
+; [SOURCE]: C:\emu8086\MySource\lab 2.asm
